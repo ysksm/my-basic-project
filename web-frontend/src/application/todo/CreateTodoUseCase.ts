@@ -1,14 +1,13 @@
+import type { TodoAggregate } from '../../domain/todo/aggregates/TodoAggregate.ts'
 import type { ITodoRepository } from '../../domain/todo/ITodoRepository.ts'
-import type { Todo } from '../../domain/todo/Todo.ts'
+import { TodoTitle } from '../../domain/todo/value-objects/TodoTitle.ts'
 
 export class CreateTodoUseCase {
   private readonly repository: ITodoRepository
   constructor(repository: ITodoRepository) { this.repository = repository }
 
-  async execute(title: string): Promise<Todo> {
-    if (title.trim() === '') {
-      throw new Error('Title must not be empty')
-    }
-    return this.repository.create({ title: title.trim() })
+  execute(rawTitle: string): Promise<TodoAggregate> {
+    const title = TodoTitle.of(rawTitle)  // validation at domain boundary
+    return this.repository.create(title)
   }
 }
