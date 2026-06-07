@@ -27,6 +27,8 @@ class Todo(BaseModel):
 
 def _row_to_todo(row: tuple) -> dict:
     id_, title, completed, created_at = row
+    if isinstance(created_at, datetime) and created_at.tzinfo is None:
+        created_at = created_at.replace(tzinfo=timezone.utc)
     return {"id": id_, "title": title, "completed": completed, "created_at": created_at}
 
 
@@ -78,6 +80,8 @@ def update_todo(
         "UPDATE todos SET title = ?, completed = ? WHERE id = ? RETURNING id, title, completed, created_at",
         [new_title, new_completed, todo_id],
     ).fetchone()
+    if row is None:
+        raise HTTPException(status_code=404, detail="Todo not found")
     return _row_to_todo(row)
 
 

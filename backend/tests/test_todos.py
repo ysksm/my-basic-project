@@ -14,7 +14,8 @@ def test_create(client: TestClient):
     assert data["title"] == "Buy milk"
     assert data["completed"] is False
     assert "id" in data
-    assert "created_at" in data
+    # created_at must include a UTC offset
+    assert data["created_at"].endswith("Z") or "+00:00" in data["created_at"]
 
 
 def test_list_after_create(client: TestClient):

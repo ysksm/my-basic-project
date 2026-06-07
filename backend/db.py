@@ -19,7 +19,6 @@ def init_schema(conn: duckdb.DuckDBPyConnection) -> None:
 
 def get_db():
     conn = duckdb.connect(str(DB_PATH))
-    init_schema(conn)
     try:
         yield conn
     finally:
