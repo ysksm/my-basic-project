@@ -22,5 +22,9 @@ build/
 .idea/
 .vscode/
 
+# Database
+*.duckdb
+*.duckdb.wal
+
 # OS
 .DS_Store
