@@ -33,6 +33,7 @@ export function useTodos(): UseTodosResult {
   useEffect(() => { void load() }, [load])
 
   const createTodo = useCallback(async (rawTitle: string) => {
+    setError(null)
     try {
       const todo = await createTodoUseCase.execute(rawTitle)
       setTodos(prev => [...prev, todo])
@@ -44,6 +45,7 @@ export function useTodos(): UseTodosResult {
   const toggleTodo = useCallback(async (id: TodoId) => {
     const todo = todos.find(t => t.id === id)
     if (!todo) return
+    setError(null)
     try {
       const updated = await updateTodoUseCase.execute(id, { completed: !todo.completed })
       setTodos(prev => prev.map(t => t.id === id ? updated : t))
@@ -53,6 +55,7 @@ export function useTodos(): UseTodosResult {
   }, [todos, updateTodoUseCase])
 
   const deleteTodo = useCallback(async (id: TodoId) => {
+    setError(null)
     try {
       await deleteTodoUseCase.execute(id)
       setTodos(prev => prev.filter(t => t.id !== id))

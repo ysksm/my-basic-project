@@ -15,9 +15,10 @@ type TodoDto = {
 }
 
 function fromDto(dto: TodoDto): TodoAggregate {
-  return TodoAggregate.create({
+  return TodoAggregate.reconstruct({
     id: TodoIdVO.fromTrusted(dto.id),
     title: TodoTitleVO.of(dto.title),
+    completed: dto.completed,
     createdAt: new Date(dto.created_at),
   })
 }
@@ -30,7 +31,7 @@ export class TodoApiRepository implements ITodoRepository {
 
   async findById(id: TodoId): Promise<TodoAggregate | null> {
     try {
-      const dto = await apiClient.get<TodoDto>(`/todos/${id}`)
+      const dto = await apiClient.get<TodoDto>(`/todos/${TodoIdVO.unwrap(id)}`)
       return fromDto(dto)
     } catch {
       return null

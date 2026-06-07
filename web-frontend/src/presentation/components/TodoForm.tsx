@@ -22,11 +22,13 @@ export function TodoForm({ onSubmit }: TodoFormProps) {
 
   return (
     <form onSubmit={handleSubmit}>
+      <label htmlFor="new-todo-input">New todo</label>
       <input
+        id="new-todo-input"
         type="text"
         value={title}
         onChange={e => setTitle(e.target.value)}
-        placeholder="New todo..."
+        placeholder="Enter a todo title..."
         disabled={submitting}
       />
       <button type="submit" disabled={submitting || title.trim() === ''}>

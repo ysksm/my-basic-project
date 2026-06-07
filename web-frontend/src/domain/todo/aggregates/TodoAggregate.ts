@@ -1,5 +1,5 @@
 import { Todo } from '../entities/Todo.ts'
-import type { TodoProps } from '../entities/Todo.ts'
+import type { TodoProps, TodoReconstructProps } from '../entities/Todo.ts'
 import type { TodoId } from '../value-objects/TodoId.ts'
 import type { TodoTitle } from '../value-objects/TodoTitle.ts'
 
@@ -16,6 +16,9 @@ export type UpdateTodoAggregateParams = {
 export const TodoAggregate = {
   create(props: TodoProps): TodoAggregate {
     return Todo.create(props)
+  },
+  reconstruct(props: TodoReconstructProps): TodoAggregate {
+    return Todo.reconstruct(props)
   },
   applyUpdate(aggregate: TodoAggregate, params: UpdateTodoAggregateParams): TodoAggregate {
     let updated = aggregate

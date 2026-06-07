@@ -1,9 +1,10 @@
 const BASE_URL = '/api'
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
+  const { headers: initHeaders, ...restInit } = init ?? {}
   const res = await fetch(`${BASE_URL}${path}`, {
-    headers: { 'Content-Type': 'application/json', ...init?.headers },
-    ...init,
+    ...restInit,
+    headers: { 'Content-Type': 'application/json', ...initHeaders },
   })
   if (!res.ok) {
     throw new Error(`API error: ${res.status} ${res.statusText}`)

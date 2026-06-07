@@ -10,15 +10,22 @@ type Props = {
 export function TodoItem({ todo, onToggle, onDelete }: Props) {
   return (
     <li>
-      <input
-        type="checkbox"
-        checked={todo.completed}
-        onChange={() => void onToggle(todo.id)}
-      />
-      <span style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}>
-        {todo.title}
-      </span>
-      <button onClick={() => void onDelete(todo.id)}>Delete</button>
+      <label>
+        <input
+          type="checkbox"
+          checked={todo.completed}
+          onChange={() => void onToggle(todo.id)}
+        />
+        <span style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}>
+          {todo.title}
+        </span>
+      </label>
+      <button
+        onClick={() => void onDelete(todo.id)}
+        aria-label={`Delete "${todo.title}"`}
+      >
+        Delete
+      </button>
     </li>
   )
 }

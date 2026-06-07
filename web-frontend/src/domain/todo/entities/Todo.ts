@@ -15,10 +15,17 @@ export type TodoProps = {
   readonly createdAt: Date
 }
 
+export type TodoReconstructProps = TodoProps & { readonly completed: boolean }
+
 // Companion object
 export const Todo = {
+  /** Create a brand-new todo (completed defaults to false) */
   create(props: TodoProps): Todo {
     return { ...props, completed: false }
+  },
+  /** Reconstitute from persistence — preserves the stored completed flag */
+  reconstruct(props: TodoReconstructProps): Todo {
+    return { ...props }
   },
   complete(todo: Todo): Todo {
     return { ...todo, completed: true }
