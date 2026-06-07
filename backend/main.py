@@ -2,7 +2,6 @@ from pathlib import Path
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
 DIST_DIR = Path(__file__).parent.parent / "web-frontend" / "dist"
@@ -22,7 +21,8 @@ def health():
     return {"status": "ok"}
 
 
-app.mount("/", StaticFiles(directory=DIST_DIR, html=True), name="static")
+if DIST_DIR.exists():
+    app.mount("/", StaticFiles(directory=DIST_DIR, html=True), name="static")
 
 
 if __name__ == "__main__":
